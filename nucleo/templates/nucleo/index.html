@@ -1,54 +1,68 @@
 {% extends "base.html" %}
 
 {% block title %}Colaboradores{% endblock %}
+{% block page_title %}Colaboradores{% endblock %}
+
+{% block breadcrumb %}
+    <li class="breadcrumb-item"><a href="{% url 'nucleo-inicial' %}">Home</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Colaboradores</li>
+{% endblock %}
 
 {% block content %}
-    <div class="page-header">
-        <div>
-            <p class="eyebrow">GESTÃO</p>
-            <h1>Colaboradores</h1>
-            <p class="page-header__description">Consulte e gerencie os colaboradores cadastrados.</p>
-        </div>
-        <a class="button button--primary" href="{% url 'nucleo-colaborador' %}">Adicionar colaborador</a>
-    </div>
+    <div class="row">
+        <div class="col-12">
+            <div class="card card-primary card-outline">
+                <div class="card-header">
+                    <h3 class="card-title">Lista de colaboradores</h3>
+                    <div class="card-tools">
+                        <a class="btn btn-primary btn-sm" href="{% url 'nucleo-colaborador' %}">
+                            <i class="bi bi-plus-lg me-1"></i>Adicionar colaborador
+                        </a>
+                    </div>
+                </div>
 
-    <section class="card" aria-labelledby="colaboradores-title">
-        <div class="card__header">
-            <div>
-                <p class="eyebrow">CADASTRO</p>
-                <h2 id="colaboradores-title">Lista de colaboradores</h2>
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-hover mb-0 align-middle">
+                            <thead>
+                                <tr>
+                                    <th scope="col">ID</th>
+                                    <th scope="col">Nome</th>
+                                    <th scope="col">Telefone</th>
+                                    <th scope="col">Setor</th>
+                                    <th scope="col">Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for colaborador in colaboradores %}
+                                    <tr>
+                                        <td>{{ colaborador.id }}</td>
+                                        <td>{{ colaborador.nome }}</td>
+                                        <td>{{ colaborador.telefone|default:"—" }}</td>
+                                        <td>{{ colaborador.setor.nome }}</td>
+                                        <td class="text-nowrap">
+                                            <a class="btn btn-outline-primary btn-sm me-1" href="{% url 'nucleo-editar' colaborador.id %}">
+                                                <i class="bi bi-pencil me-1"></i>Editar
+                                            </a>
+                                            <a class="btn btn-outline-danger btn-sm" href="#">
+                                                <i class="bi bi-trash me-1"></i>Remover
+                                            </a>
+                                        </td>
+                                    </tr>
+                                {% empty %}
+                                    <tr>
+                                        <td class="text-center text-body-secondary py-4" colspan="4">Nenhum colaborador encontrado.</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="card-footer text-body-secondary small">
+                    {{ colaboradores|length }} colaborador{{ colaboradores|length|pluralize:"es" }} cadastrado{{ colaboradores|length|pluralize:"s" }}
+                </div>
             </div>
-            <span class="card__status">{{ colaboradores|length }} cadastrados</span>
         </div>
-
-        <div class="table-wrapper">
-            <table>
-                <thead>
-                    <tr>
-                        <th scope="col">ID</th>
-                        <th scope="col">Nome</th>
-                        <th scope="col">Telefone</th>
-                        <th scope="col">Ações</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for colaborador in colaboradores %}
-                        <tr>
-                            <td>{{ colaborador.id }}</td>
-                            <td>{{ colaborador.nome }}</td>
-                            <td>{{ colaborador.telefone|default:"—" }}</td>
-                            <td>
-                                <a href="{% url 'nucleo-editar' colaborador.id  %}">Editar</a>
-                                <a href="">Remover</a>
-                            </td>
-                        </tr>
-                    {% empty %}
-                        <tr>
-                            <td class="table__empty" colspan="4">Nenhum colaborador encontrado.</td>
-                        </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-    </section>
+    </div>
 {% endblock %}

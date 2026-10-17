@@ -1,39 +1,40 @@
 {% extends "base.html" %}
 
 {% block title %}Adicionar colaborador{% endblock %}
+{% block page_title %}Adicionar colaborador{% endblock %}
+
+{% block breadcrumb %}
+    <li class="breadcrumb-item"><a href="{% url 'nucleo-inicial' %}">Home</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'nucleo-inicial' %}">Colaboradores</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Adicionar</li>
+{% endblock %}
 
 {% block content %}
-    <div class="page-header">
-        <div>
-            <p class="eyebrow">CADASTRO</p>
-            <h1>Adicionar colaborador</h1>
-            <p class="page-header__description">Preencha os dados para criar um novo cadastro.</p>
+    <div class="row">
+        <div class="col-lg-8">
+            <div class="card card-primary card-outline">
+                <div class="card-header">
+                    <h3 class="card-title">Informações do colaborador</h3>
+                </div>
+
+                <form action="{% url 'nucleo-colaborador' %}" method="post">
+                    {% csrf_token %}
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <label class="form-label" for="nome">Nome</label>
+                            <input class="form-control" id="nome" type="text" name="nome" autocomplete="name" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="telefone">Telefone</label>
+                            <input class="form-control" id="telefone" type="tel" name="telefone" autocomplete="tel">
+                        </div>
+                    </div>
+                    <div class="card-footer d-flex justify-content-end gap-2">
+                        <a class="btn btn-secondary" href="{% url 'nucleo-inicial' %}">Cancelar</a>
+                        <button class="btn btn-primary" type="submit">Salvar colaborador</button>
+                    </div>
+                </form>
+            </div>
         </div>
-        <a class="button button--secondary" href="{% url 'nucleo-inicial' %}">Voltar</a>
     </div>
-
-    <section class="card card--form" aria-labelledby="novo-colaborador-title">
-        <div class="card__header">
-            <div>
-                <p class="eyebrow">DADOS DO CADASTRO</p>
-                <h2 id="novo-colaborador-title">Informações do colaborador</h2>
-            </div>
-        </div>
-
-        <form class="form-grid" action="{% url 'nucleo-colaborador' %}" method="post">
-            {% csrf_token %}
-            <div class="form-field">
-                <label for="nome">Nome</label>
-                <input id="nome" type="text" name="nome" autocomplete="name" required>
-            </div>
-            <div class="form-field">
-                <label for="telefone">Telefone</label>
-                <input id="telefone" type="tel" name="telefone" autocomplete="tel">
-            </div>
-            <div class="form-actions">
-                <a class="button button--secondary" href="{% url 'nucleo-inicial' %}">Cancelar</a>
-                <button class="button button--primary" type="submit">Salvar colaborador</button>
-            </div>
-        </form>
-    </section>
 {% endblock %}

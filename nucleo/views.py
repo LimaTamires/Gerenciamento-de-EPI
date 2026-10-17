@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.views.decorators.http import require_GET, require_http_methods, require_POST
-from nucleo.models import Colaborador
+from nucleo.models import Colaborador, Setor
 
 
 @require_GET
@@ -36,7 +36,8 @@ def tela_editar(req, id):
         return redirect('nucleo-colaborador')
 
     return render(req, 'nucleo/forms/editar.html', {
-        "colaborador": colaborador
+        "colaborador": colaborador,
+        "setores": Setor.objects.all()
     })
 
 
@@ -53,9 +54,14 @@ def atualizar(req, id):
         return redirect('nucleo-editar', colaborador)
 
     telefone = req.POST.get('telefone')
+    setor_id = req.POST.get('setor')
+
+    setor = Setor.objects.get(id=setor_id)
+    # setor = Setor.objects.filter(id=setor_id).last()
 
     colaborador.nome = nome
     colaborador.telefone = telefone
+    colaborador.setor = setor
     colaborador.save()
 
     return redirect('nucleo-inicial')
