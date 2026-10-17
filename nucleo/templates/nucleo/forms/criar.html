@@ -1,31 +1,39 @@
-{% load static %}
+{% extends "base.html" %}
 
-<!DOCTYPE html>
-<html>
-    <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hello World</title>
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
-</head>
-<body>
-    <div class="container">
-        <h1>Adicionar Colaborador</h1>
-        <p></p>
-        <form action="{% url 'nucleo-salvar' %}" method="POST">
-            <div>
-                <label>Nome</label>
-                <input type="text" name="nome"/>
-            </div>
-            <div>
-                <label>Telefone</label>
-                <input type="text" name="telefone"/>
-            </div>
-            <div>
-                <input type="submit" value="Salvar"/>
-            </div>
-            {% csrf_token %}
-        </form>
+{% block title %}Adicionar colaborador{% endblock %}
+
+{% block content %}
+    <div class="page-header">
+        <div>
+            <p class="eyebrow">CADASTRO</p>
+            <h1>Adicionar colaborador</h1>
+            <p class="page-header__description">Preencha os dados para criar um novo cadastro.</p>
+        </div>
+        <a class="button button--secondary" href="{% url 'nucleo-inicial' %}">Voltar</a>
     </div>
-</body>
-</html>
+
+    <section class="card card--form" aria-labelledby="novo-colaborador-title">
+        <div class="card__header">
+            <div>
+                <p class="eyebrow">DADOS DO CADASTRO</p>
+                <h2 id="novo-colaborador-title">Informações do colaborador</h2>
+            </div>
+        </div>
+
+        <form class="form-grid" action="{% url 'nucleo-colaborador' %}" method="post">
+            {% csrf_token %}
+            <div class="form-field">
+                <label for="nome">Nome</label>
+                <input id="nome" type="text" name="nome" autocomplete="name" required>
+            </div>
+            <div class="form-field">
+                <label for="telefone">Telefone</label>
+                <input id="telefone" type="tel" name="telefone" autocomplete="tel">
+            </div>
+            <div class="form-actions">
+                <a class="button button--secondary" href="{% url 'nucleo-inicial' %}">Cancelar</a>
+                <button class="button button--primary" type="submit">Salvar colaborador</button>
+            </div>
+        </form>
+    </section>
+{% endblock %}

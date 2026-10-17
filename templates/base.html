@@ -1,0 +1,42 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Núcleo{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'nucleo/css/style.css' %}">
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <div class="app-shell">
+        <header class="topbar">
+            <a class="topbar__brand" href="{% url 'nucleo-inicial' %}">Home</a>
+            <div class="topbar__account">
+                <span>Admin</span>
+                <span class="topbar__logout">Sair</span>
+            </div>
+        </header>
+
+        <div class="app-layout">
+            <aside class="sidebar" aria-label="Navegação principal">
+                <nav class="sidebar__nav">
+                    <a class="sidebar__link sidebar__link--active" href="{% url 'nucleo-inicial' %}">Colaboradores</a>
+                    <span class="sidebar__link sidebar__link--disabled">EPI</span>
+                    <span class="sidebar__link sidebar__link--disabled">Equipamentos</span>
+                    <span class="sidebar__link sidebar__link--disabled">Empréstimos</span>
+                    <span class="sidebar__link sidebar__link--disabled">Relatórios</span>
+                    <span class="sidebar__link sidebar__link--disabled">Configurações</span>
+                </nav>
+                <div class="sidebar__footer">Sair</div>
+            </aside>
+
+            <main class="page-content">
+                <div class="page-content__inner">
+                    {% block content %}{% endblock %}
+                </div>
+            </main>
+        </div>
+    </div>
+</body>
+</html>
